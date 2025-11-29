@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="coffee.css">
+    <title>Menu - Secret Sip Coffee Shop</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fef3c7;
+            color: #78350f;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #78350f;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 2rem;
+            height: 2rem;
+            color: #b45309;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #78350f;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #b45309;
+        }
+
+        .btn-primary {
+            background-color: #b45309;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #92400e;
+        }
+
+        /* Hero Banner */
+        .menu-hero {
+            background: linear-gradient(to bottom, #b45309, #92400e);
+            color: white;
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+        }
+
+        .menu-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .menu-hero p {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        /* Menu Category Navigation */
+        .category-nav {
+            background-color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 73px;
+            z-index: 40;
+        }
+
+        .category-nav-content {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-link {
+            color: #78350f;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s;
+        }
+
+        .category-link:hover,
+        .category-link.active {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 4rem 1.5rem;
+            background-color: white;
+        }
+
+        .menu-section:nth-child(even) {
+            background-color: #fef3c7;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: rgba(120, 53, 15, 0.7);
+            font-size: 1.125rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .menu-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .menu-section:nth-child(even) .menu-card {
+            background-color: white;
+        }
+
+        .menu-card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .menu-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .menu-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .menu-card:hover .menu-image img {
+            transform: scale(1.1);
+        }
+
+        .price-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #b45309;
+            color: white;
+            border-radius: 9999px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.25rem 0.75rem;
+            background-color: #fbbf24;
+            color: #451a03;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .menu-content {
+            padding: 1.5rem;
+        }
+
+        .menu-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-content p {
+            color: rgba(120, 53, 15, 0.7);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .menu-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: rgba(120, 53, 15, 0.6);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #451a03;
+            color: white;
+            padding: 3rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #fde68a;
+        }
+
+        .footer-brand svg {
+            width: 2rem;
+            height: 2rem;
+            color: #fbbf24;
+        }
+
+        footer h3 {
+            color: #fde68a;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: rgba(253, 230, 138, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fbbf24;
+        }
+
+        footer p {
+            color: rgba(253, 230, 138, 0.7);
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #92400e;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .social-icon:hover {
+            background-color: #b45309;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid #92400e;
+            text-align: center;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 767px) {
+            nav {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                        <line x1="6" x2="6" y1="2" y2="4"/>
+                        <line x1="10" x2="10" y1="2" y2="4"/>
+                        <line x1="14" x2="14" y1="2" y2="4"/>
+                    </svg>
+                    <span>Secret Sip</span>
+                </a>
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="menu.html">Menu</a>
+                    <a href="about.html">About</a>
+                    <a href="beans.html">The Coffee Bean</a>
+                    <a href="location.html">Location</a>
+                    <button class="btn-primary">Order Now</button>
+                </nav>
+                <div class="mobile-menu">☰</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Hero -->
+    <section class="menu-hero">
+        <div class="container">
+            <h1>Our Menu</h1>
+            <p>Discover our handcrafted selection of premium coffee beverages, fresh pastries, and delicious treats. Every item is made with passion and the finest ingredients.</p>
+        </div>
+    </section>
+
+    <!-- Category Navigation -->
+    <div class="category-nav">
+        <div class="container">
+            <div class="category-nav-content">
+                <a href="#hot-drinks" class="category-link active">Hot Drinks</a>
+                <a href="#cold-drinks" class="category-link">Cold Drinks</a>
+                <a href="#specialty" class="category-link">Specialty</a>
+                <a href="#pastries" class="category-link">Pastries</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hot Drinks Section -->
+    <section id="hot-drinks" class="menu-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>☕ Hot Drinks</h2>
+                <p>Classic favorites brewed to perfection</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1645445644664-8f44112f334c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3ByZXNzbyUyMGNvZmZlZSUyMGN1cHxlbnwxfHx8fDE3NjM2MzU2MjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Classic Espresso">
+                        <span class="badge">Popular</span>
+                        <div class="price-tag">$3.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Classic Espresso</h3>
+                        <p>Rich and bold espresso shot with perfect crema. Made from our signature blend of Arabica beans.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">☕ Single/Double</span>
+                            <span class="meta-item">⚡ High Caffeine</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1667388363683-a07bbf0c84b1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXBwdWNjaW5vJTIwbGF0dGUlMjBhcnR8ZW58MXx8fHwxNzYzNjE5NDAyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Cappuccino">
+                        <span class="badge">Bestseller</span>
+                        <div class="price-tag">$4.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Cappuccino</h3>
+                        <p>Perfectly steamed milk with beautiful latte art. Equal parts espresso, steamed milk, and foam.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🥛 Dairy</span>
+                            <span class="meta-item">🎨 Latte Art</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1618576230663-9714aecfb99a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2NoYSUyMGNvZmZlZXxlbnwxfHx8fDE3NjQ0MTI5NjR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Mocha">
+                        <div class="price-tag">$5.00</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Mocha</h3>
+                        <p>Rich espresso combined with premium chocolate and steamed milk. Topped with whipped cream.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🍫 Chocolate</span>
+                            <span class="meta-item">🥛 Dairy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1604298458655-ae6e04213678?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWNjaGlhdG8lMjBjb2ZmZWV8ZW58MXx8fHwxNzY0MzMxMDM3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Caramel Macchiato">
+                        <div class="price-tag">$5.25</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Caramel Macchiato</h3>
+                        <p>Espresso marked with vanilla-flavored syrup, steamed milk, and caramel drizzle.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🍯 Sweet</span>
+                            <span class="meta-item">🥛 Dairy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1672570050756-4f1953bde478?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMHJvYXN0ZWR8ZW58MXx8fHwxNzYzNTg4OTU1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Americano">
+                        <div class="price-tag">$3.75</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Americano</h3>
+                        <p>Espresso diluted with hot water for a smooth, rich coffee experience. Classic and simple.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">⚡ Strong</span>
+                            <span class="meta-item">☕ Pure Coffee</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1727080409436-356bdc609899?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmbGF0JTIwd2hpdGUlMjBjb2ZmZWV8ZW58MXx8fHwxNzY0Mzk4NTIxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Flat White">
+                        <div class="price-tag">$4.75</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Flat White</h3>
+                        <p>Velvety microfoam poured over a double shot of espresso. Creamy and smooth texture.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🥛 Creamy</span>
+                            <span class="meta-item">⚡ Double Shot</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cold Drinks Section -->
+    <section id="cold-drinks" class="menu-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>🧊 Cold Drinks</h2>
+                <p>Refreshing beverages for any time</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1684439670717-b1147a7e7534?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpY2VkJTIwY29mZmVlJTIwZHJpbmt8ZW58MXx8fHwxNzYzNjIzOTc5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Iced Coffee">
+                        <span class="badge">Popular</span>
+                        <div class="price-tag">$4.00</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Iced Coffee</h3>
+                        <p>Refreshing cold brew served over ice. Smooth, naturally sweet, and perfectly chilled.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🧊 Ice Cold</span>
+                            <span class="meta-item">☕ Classic</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1561641377-f7456d23aa9b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2xkJTIwYnJldyUyMGNvZmZlZXxlbnwxfHx8fDE3NjQ0MzQ4OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Cold Brew">
+                        <span class="badge">Bestseller</span>
+                        <div class="price-tag">$4.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Cold Brew</h3>
+                        <p>Steeped for 18 hours for a smooth, bold flavor. Less acidic than traditional iced coffee.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">⏰ Slow Brewed</span>
+                            <span class="meta-item">⚡ Smooth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmFwcGUlMjBjb2ZmZWV8ZW58MXx8fHwxNzY0MzczMjE0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Frappe">
+                        <div class="price-tag">$5.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Coffee Frappe</h3>
+                        <p>Blended iced coffee drink topped with whipped cream. Sweet and indulgent treat.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🍨 Blended</span>
+                            <span class="meta-item">🍯 Sweet</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specialty Section -->
+    <section id="specialty" class="menu-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>✨ Specialty Drinks</h2>
+                <p>Unique creations by our expert baristas</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1539021897569-06e9fa3c6bb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYXJpc3RhJTIwbWFraW5nJTIwY29mZmVlfGVufDF8fHx8MTc2MzUzNTgzNnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Signature Brew">
+                        <span class="badge">Exclusive</span>
+                        <div class="price-tag">$6.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Secret Sip Signature</h3>
+                        <p>Our exclusive house blend with hints of vanilla and caramel. A secret recipe perfected over years.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">⭐ Signature</span>
+                            <span class="meta-item">🎁 Exclusive</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1618576230663-9714aecfb99a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2NoYSUyMGNvZmZlZXxlbnwxfHx8fDE3NjQ0MTI5NjR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Seasonal Special">
+                        <span class="badge">Seasonal</span>
+                        <div class="price-tag">$6.00</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Seasonal Special</h3>
+                        <p>Changes with the season. Ask our baristas about this month's featured specialty drink.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🍂 Limited Time</span>
+                            <span class="meta-item">✨ Special</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1604298458655-ae6e04213678?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWNjaGlhdG8lMjBjb2ZmZWV8ZW58MXx8fHwxNzY0MzMxMDM3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Honey Lavender Latte">
+                        <div class="price-tag">$5.75</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Honey Lavender Latte</h3>
+                        <p>Delicate lavender-infused latte sweetened with local honey. Floral and soothing.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🌸 Floral</span>
+                            <span class="meta-item">🍯 Natural</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pastries Section -->
+    <section id="pastries" class="menu-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>🥐 Pastries & Treats</h2>
+                <p>Freshly baked every morning</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1568471382005-99e347e2aef0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcm9pc3NhbnQlMjBiYWtlcnl8ZW58MXx8fHwxNzY0MzI3MzIzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Butter Croissant">
+                        <span class="badge">Fresh Daily</span>
+                        <div class="price-tag">$3.50</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Butter Croissant</h3>
+                        <p>Classic French pastry with flaky layers and rich buttery flavor. Baked fresh every morning.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🥐 Fresh Baked</span>
+                            <span class="meta-item">🇫🇷 French</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1609983508297-272bdba8d9ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtdWZmaW4lMjBiYWtlcnl8ZW58MXx8fHwxNzY0NDEyOTY1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Blueberry Muffin">
+                        <div class="price-tag">$4.00</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Blueberry Muffin</h3>
+                        <p>Moist and fluffy muffin loaded with fresh blueberries. Perfect companion to your coffee.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🫐 Blueberry</span>
+                            <span class="meta-item">🧁 Moist</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-image">
+                        <img src="https://images.unsplash.com/photo-1681218424681-b4f8228ecea9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjcm9pc3NhbnQlMjBwYWlufGVufDF8fHx8MTc2NDQzNTU3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Chocolate Croissant">
+                        <span class="badge">Popular</span>
+                        <div class="price-tag">$4.25</div>
+                    </div>
+                    <div class="menu-content">
+                        <h3>Chocolate Croissant</h3>
+                        <p>Pain au chocolat with premium dark chocolate. A decadent breakfast treat.</p>
+                        <div class="menu-meta">
+                            <span class="meta-item">🍫 Chocolate</span>
+                            <span class="meta-item">🥐 Flaky</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                            <line x1="6" x2="6" y1="2" y2="4"/>
+                            <line x1="10" x2="10" y1="2" y2="4"/>
+                            <line x1="14" x2="14" y1="2" y2="4"/>
+                        </svg>
+                        <span>Secret Sip</span>
+                    </div>
+                    <p>Crafting exceptional coffee experiences since 2020. Your daily dose of happiness.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="index.html#location">Location</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Our Menu</h3>
+                    <ul>
+                        <li><a href="#hot-drinks">Hot Drinks</a></li>
+                        <li><a href="#cold-drinks">Cold Brew</a></li>
+                        <li><a href="#pastries">Pastries</a></li>
+                        <li><a href="#specialty">Specialty</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📷</a>
+                        <a href="#" class="social-icon">👍</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Secret Sip. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
