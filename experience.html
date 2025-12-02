@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Coffee Experience - Secret Sip Coffee Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fef3c7;
+            color: #78350f;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #78350f;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 2rem;
+            height: 2rem;
+            color: #b45309;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #78350f;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #b45309;
+        }
+
+        .btn-primary {
+            background-color: #b45309;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #92400e;
+        }
+
+        /* Hero Banner */
+        .experience-hero {
+            background: linear-gradient(to bottom, #b45309, #92400e);
+            color: white;
+            padding: 4rem 1.5rem 3rem;
+            text-align: center;
+        }
+
+        .experience-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .experience-hero p {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 4rem 1.5rem;
+            background-color: white;
+        }
+
+        .video-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .video-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 1rem;
+        }
+
+        .video-content p {
+            color: rgba(120, 53, 15, 0.7);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Journey Section */
+        .journey-section {
+            padding: 4rem 1.5rem;
+            background-color: #fef3c7;
+        }
+
+        .journey-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .journey-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-title p {
+            color: rgba(120, 53, 15, 0.7);
+            font-size: 1.125rem;
+        }
+
+        .steps-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .step {
+                grid-template-columns: 1fr 1fr;
+            }
+            .step:nth-child(even) {
+                direction: rtl;
+            }
+            .step:nth-child(even) > * {
+                direction: ltr;
+            }
+        }
+
+        .step-number {
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #b45309, #92400e);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .step-image {
+            width: 100%;
+            height: 350px;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .step-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-content h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 1rem;
+        }
+
+        .step-content p {
+            color: rgba(120, 53, 15, 0.7);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.0625rem;
+        }
+
+        .step-highlight {
+            background-color: #fef3c7;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #b45309;
+            margin-top: 1rem;
+        }
+
+        .step-highlight strong {
+            color: #b45309;
+            font-weight: 600;
+        }
+
+        /* Fun Facts Section */
+        .facts-section {
+            padding: 4rem 1.5rem;
+            background-color: white;
+        }
+
+        .facts-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .facts-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .facts-title p {
+            color: rgba(120, 53, 15, 0.7);
+            font-size: 1.125rem;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 640px) {
+            .facts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .facts-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .fact-card {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .fact-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .fact-card p {
+            color: rgba(120, 53, 15, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #451a03;
+            color: white;
+            padding: 3rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #fde68a;
+        }
+
+        .footer-brand svg {
+            width: 2rem;
+            height: 2rem;
+            color: #fbbf24;
+        }
+
+        footer h3 {
+            color: #fde68a;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: rgba(253, 230, 138, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fbbf24;
+        }
+
+        footer p {
+            color: rgba(253, 230, 138, 0.7);
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #92400e;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .social-icon:hover {
+            background-color: #b45309;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid #92400e;
+            text-align: center;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 767px) {
+            nav {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+            .experience-hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                        <line x1="6" x2="6" y1="2" y2="4"/>
+                        <line x1="10" x2="10" y1="2" y2="4"/>
+                        <line x1="14" x2="14" y1="2" y2="4"/>
+                    </svg>
+                    <span>Secret Sip</span>
+                </a>
+                <nav>
+                    <a href="index.html#home">Home</a>
+                    <a href="menu.html">Menu</a>
+                    <a href="about.html">About</a>
+                    <a href="experience.html">Secret Sip Experience</a>
+                    <a href="location.html">Location</a>
+                    <a href="ordernow.html" class="btn-primary">Order Now</a>
+                </nav>
+                <div class="mobile-menu">☰</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Experience Hero -->
+    <section class="experience-hero">
+        <div class="container">
+            <h1>The Coffee Experience</h1>
+            <p>Follow the incredible journey from farm to cup. Discover the artistry, science, and passion behind every sip.</p>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-content">
+                <h2>The Art of Coffee Roasting</h2>
+                <p>Watch as our master roaster transforms green coffee beans into the aromatic, flavorful beans that make your favorite beverages. This delicate process requires precision, experience, and a deep understanding of each bean's unique characteristics.</p>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/Y52WQygSrmQ?si=NKNzYTI5CSj9ToaE" 
+                        title="Coffee Roasting Process" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="journey-section">
+        <div class="container">
+            <div class="journey-title">
+                <h2>From Bean to Cup</h2>
+                <p>The complete journey of your coffee</p>
+            </div>
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1694558334826-a371e09fae1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBmYXJtJTIwaGFydmVzdHxlbnwxfHx8fDE3NjQ2MTM3OTJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Coffee Harvesting">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">🌱</div>
+                        <h3>Harvesting</h3>
+                        <p>Our journey begins at carefully selected coffee farms around the world. Coffee cherries are hand-picked at peak ripeness, ensuring only the finest fruit makes it into your cup.</p>
+                        <p>Farmers with generations of experience know exactly when each cherry has reached its optimal flavor potential. This labor-intensive process is crucial for quality.</p>
+                        <div class="step-highlight">
+                            <strong>Did you know?</strong> A single coffee tree produces only about 1-2 pounds of roasted coffee per year!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1633627354173-1a26871e3204?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFuJTIwc29ydGluZ3xlbnwxfHx8fDE3NjQ2MTM3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Coffee Processing">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">🔄</div>
+                        <h3>Processing & Sorting</h3>
+                        <p>After harvesting, coffee cherries are processed to remove the fruit and reveal the green coffee beans inside. This can be done through wet or dry methods, each affecting the final flavor profile.</p>
+                        <p>Beans are then meticulously sorted by size, density, and quality. Any defective beans are removed to ensure consistency and excellence in every batch.</p>
+                        <div class="step-highlight">
+                            <strong>Processing matters:</strong> The method used can dramatically change the taste, from fruity and wine-like to clean and balanced.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1644754890154-8b799d11a53f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjByb2FzdGluZyUyMG1hY2hpbmV8ZW58MXx8fHwxNzY0NjEzNzkzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Coffee Roasting">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">🔥</div>
+                        <h3>Roasting</h3>
+                        <p>This is where the magic happens! Green coffee beans are roasted at precise temperatures (typically 370-540°F) for 10-20 minutes. During this process, the beans undergo complex chemical reactions that develop over 1,000 aromatic compounds.</p>
+                        <p>Our master roasters carefully monitor temperature, time, and airflow to bring out each origin's unique characteristics. From light to dark roasts, each level reveals different flavor notes.</p>
+                        <div class="step-highlight">
+                            <strong>Roast profiles:</strong> Light roasts preserve origin flavors, while darker roasts develop bolder, caramelized notes.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1672692651977-30f0700d3d1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBncmluZGluZ3xlbnwxfHx8fDE3NjQ2MTM3OTN8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Coffee Grinding">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">⚙️</div>
+                        <h3>Grinding</h3>
+                        <p>Fresh grinding is essential for optimal flavor. We grind beans immediately before brewing to preserve the aromatic oils and compounds that give coffee its distinctive taste and aroma.</p>
+                        <p>The grind size is carefully calibrated for each brewing method – fine for espresso, medium for drip coffee, and coarse for French press. This ensures proper extraction and flavor balance.</p>
+                        <div class="step-highlight">
+                            <strong>Freshness counts:</strong> Coffee begins losing its flavor within 15 minutes of grinding. That's why we grind on demand!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1627835657329-22a330ffdb1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3ByZXNzbyUyMGJyZXdpbmd8ZW58MXx8fHwxNzY0NjEzNzkzfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Coffee Brewing">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">☕</div>
+                        <h3>Brewing</h3>
+                        <p>Our skilled baristas extract the perfect shot using precise water temperature (195-205°F), pressure (9 bars for espresso), and timing. Each brewing method – espresso, pour-over, French press – brings out different aspects of the coffee's flavor profile.</p>
+                        <p>For espresso, the ideal extraction time is 25-30 seconds, producing a balanced shot with rich crema. For other methods, timing and water contact vary to achieve the desired strength and character.</p>
+                        <div class="step-highlight">
+                            <strong>The golden ratio:</strong> We use 1:2 ratio for espresso (1g coffee to 2g liquid) for optimal extraction.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-image">
+                        <img src="https://images.unsplash.com/photo-1667123082136-cc2f28c5beb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBjdXAlMjBzZXJ2ZXxlbnwxfHx8fDE3NjQ2MTM3OTR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Serving Coffee">
+                    </div>
+                    <div class="step-content">
+                        <div class="step-icon">🎨</div>
+                        <h3>Serving with Love</h3>
+                        <p>The final step in our coffee journey is presenting your beverage with care and artistry. From perfectly textured microfoam to intricate latte art, every detail matters.</p>
+                        <p>We serve each cup at the optimal temperature for immediate enjoyment, in pre-warmed cups to maintain heat. Whether you're enjoying a simple black coffee or an elaborate specialty drink, we ensure it's picture-perfect and delicious.</p>
+                        <div class="step-highlight">
+                            <strong>Enjoy immediately:</strong> Coffee is best enjoyed within the first few minutes when all the flavors are at their peak!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fun Facts Section -->
+    <section class="facts-section">
+        <div class="container">
+            <div class="facts-title">
+                <h2>Coffee Fun Facts</h2>
+                <p>Fascinating tidbits about your favorite beverage</p>
+            </div>
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <div class="fact-icon">🌍</div>
+                    <h3>Global Favorite</h3>
+                    <p>Coffee is the second most traded commodity in the world after crude oil, with over 2.25 billion cups consumed daily worldwide.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🐐</div>
+                    <h3>Ancient Discovery</h3>
+                    <p>Legend says an Ethiopian goat herder discovered coffee in the 9th century when he noticed his goats became energetic after eating coffee cherries.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🎵</div>
+                    <h3>Beethoven's Ritual</h3>
+                    <p>Composer Ludwig van Beethoven was so particular about his coffee that he always counted exactly 60 beans per cup!</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">💪</div>
+                    <h3>Olympic Fuel</h3>
+                    <p>Coffee was banned from the Olympics in the early 1900s as a performance-enhancing substance. Today, moderate amounts are perfectly acceptable.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">🌡️</div>
+                    <h3>Perfect Temperature</h3>
+                    <p>The ideal serving temperature for coffee is between 155-175°F (68-79°C). This allows you to taste all the subtle flavors without burning your tongue.</p>
+                </div>
+                <div class="fact-card">
+                    <div class="fact-icon">⏰</div>
+                    <h3>Best Time to Drink</h3>
+                    <p>Science suggests the best time to drink coffee is between 9:30 AM and 11:30 AM when cortisol levels naturally dip, maximizing caffeine's effectiveness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                            <line x1="6" x2="6" y1="2" y2="4"/>
+                            <line x1="10" x2="10" y1="2" y2="4"/>
+                            <line x1="14" x2="14" y1="2" y2="4"/>
+                        </svg>
+                        <span>Secret Sip</span>
+                    </div>
+                    <p>Crafting exceptional coffee experiences since 2020. Your daily dose of happiness.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="experience.html">Experience</a></li>
+                        <li><a href="index.html#location">Location</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Our Menu</h3>
+                    <ul>
+                        <li><a href="menu.html#hot-drinks">Hot Drinks</a></li>
+                        <li><a href="menu.html#cold-drinks">Cold Brew</a></li>
+                        <li><a href="menu.html#pastries">Pastries</a></li>
+                        <li><a href="menu.html#specialty">Specialty</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">📷</a>
+                        <a href="#" class="social-icon">👍</a>
+                        <a href="#" class="social-icon">🐦</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Secret Sip. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

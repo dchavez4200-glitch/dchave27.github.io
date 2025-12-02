@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now - Secret Sip Coffee Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #fef3c7;
+            color: #78350f;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #78350f;
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 2rem;
+            height: 2rem;
+            color: #b45309;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #78350f;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #b45309;
+        }
+
+        .cart-badge {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #b45309;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+            nav {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Main Content */
+        .order-section {
+            padding: 3rem 1.5rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: rgba(120, 53, 15, 0.7);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #b45309;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Order Layout */
+        .order-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            .order-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Menu Items */
+        .menu-section {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-category {
+            margin-bottom: 2.5rem;
+        }
+
+        .menu-category:last-child {
+            margin-bottom: 0;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #fde68a;
+        }
+
+        .menu-items {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item:hover {
+            background-color: #fef3c7;
+        }
+
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #451a03;
+        }
+
+        .item-price {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #b45309;
+        }
+
+        .item-description {
+            color: rgba(120, 53, 15, 0.7);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .customize-btn {
+            background-color: #b45309;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .customize-btn:hover {
+            background-color: #92400e;
+        }
+
+        /* Cart Sidebar */
+        .cart-section {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(120, 53, 15, 0.5);
+        }
+
+        .cart-items {
+            margin-bottom: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #fef3c7;
+            margin-bottom: 1rem;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 0.375rem;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #451a03;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-details {
+            font-size: 0.75rem;
+            color: rgba(120, 53, 15, 0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 0.25rem;
+            border: 1px solid #b45309;
+            background-color: white;
+            color: #b45309;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            transition: background-color 0.3s;
+        }
+
+        .qty-btn:hover {
+            background-color: #fef3c7;
+        }
+
+        .qty-value {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: #b45309;
+            font-size: 0.875rem;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .cart-summary {
+            border-top: 2px solid #fde68a;
+            padding-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: rgba(120, 53, 15, 0.7);
+        }
+
+        .summary-row.total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #451a03;
+            margin-top: 0.5rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background-color: #b45309;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background-color: #92400e;
+        }
+
+        .checkout-btn:disabled {
+            background-color: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #451a03;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #78350f;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+        }
+
+        .customize-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .customize-label {
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .option-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: 2px solid #fde68a;
+            background-color: white;
+            color: #78350f;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .option-btn.active {
+            border-color: #b45309;
+            background-color: #fef3c7;
+            color: #b45309;
+            font-weight: 600;
+        }
+
+        .option-btn:hover {
+            border-color: #b45309;
+        }
+
+        .extras-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 2px solid #fde68a;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkbox-option:hover {
+            border-color: #b45309;
+        }
+
+        .checkbox-option.checked {
+            border-color: #b45309;
+            background-color: #fef3c7;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-option label {
+            flex: 1;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            background-color: #b45309;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #92400e;
+        }
+
+        /* Checkout Modal */
+        .checkout-form {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #451a03;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 2px solid #fde68a;
+            font-size: 1rem;
+            color: #78350f;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #b45309;
+        }
+
+        .form-input.error {
+            border-color: #dc2626;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.75rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background-color: #b45309;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .place-order-btn:hover {
+            background-color: #92400e;
+        }
+
+        .order-summary-box {
+            background-color: #fef3c7;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-summary-box h4 {
+            color: #451a03;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: rgba(120, 53, 15, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .order-summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-summary-total {
+            border-top: 2px solid #b45309;
+            padding-top: 0.5rem;
+            margin-top: 0.5rem;
+            font-weight: 700;
+            color: #451a03;
+            font-size: 1rem;
+        }
+
+        /* Success Message */
+        .success-modal {
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #10b981;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1rem;
+        }
+
+        .success-message {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #451a03;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-details {
+            color: rgba(120, 53, 15, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #451a03;
+            color: white;
+            padding: 3rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            color: #fde68a;
+        }
+
+        .footer-brand svg {
+            width: 2rem;
+            height: 2rem;
+            color: #fbbf24;
+        }
+
+        footer h3 {
+            color: #fde68a;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: rgba(253, 230, 138, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fbbf24;
+        }
+
+        footer p {
+            color: rgba(253, 230, 138, 0.7);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid #92400e;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                        <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                        <line x1="6" x2="6" y1="2" y2="4"/>
+                        <line x1="10" x2="10" y1="2" y2="4"/>
+                        <line x1="14" x2="14" y1="2" y2="4"/>
+                    </svg>
+                    <span>Secret Sip</span>
+                </a>
+                <nav>
+                    <a href="index.html">Home</a>
+                    <a href="menu.html">Menu</a>
+                    <a href="about.html">About</a>
+                    <a href="experience.html">Secret Sip Experience</a>
+                    <a href="location.html">Location</a>
+                    <div class="cart-badge">
+                        <span style="font-size: 1.5rem; cursor: pointer;" onclick="scrollToCart()">🛒</span>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </div>
+                </nav>
+                <div class="mobile-menu">☰</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Order Section -->
+    <section class="order-section">
+        <div class="container">
+            <div class="page-header">
+                <div class="badge">Order Online</div>
+                <h1>Build Your Perfect Cup</h1>
+                <p>Customize your drink and pick it up at your convenience</p>
+            </div>
+
+            <div class="order-layout">
+                <!-- Menu Items -->
+                <div class="menu-section">
+                    <!-- Hot Coffee -->
+                    <div class="menu-category">
+                        <h2 class="category-title">☕ Hot Coffee</h2>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1645445644664-8f44112f334c?w=400" alt="Espresso" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Classic Espresso</div>
+                                        <div class="item-price">$3.50</div>
+                                    </div>
+                                    <div class="item-description">Rich and bold espresso shot with perfect crema</div>
+                                    <button class="customize-btn" onclick="openCustomize('Classic Espresso', 3.50, 'https://images.unsplash.com/photo-1645445644664-8f44112f334c?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400" alt="Americano" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Americano</div>
+                                        <div class="item-price">$4.00</div>
+                                    </div>
+                                    <div class="item-description">Espresso with hot water for a smooth, rich flavor</div>
+                                    <button class="customize-btn" onclick="openCustomize('Americano', 4.00, 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1667388363683-a07bbf0c84b1?w=400" alt="Cappuccino" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Cappuccino</div>
+                                        <div class="item-price">$4.50</div>
+                                    </div>
+                                    <div class="item-description">Perfectly steamed milk with beautiful latte art</div>
+                                    <button class="customize-btn" onclick="openCustomize('Cappuccino', 4.50, 'https://images.unsplash.com/photo-1667388363683-a07bbf0c84b1?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=400" alt="Latte" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Caffè Latte</div>
+                                        <div class="item-price">$4.75</div>
+                                    </div>
+                                    <div class="item-description">Espresso with steamed milk and light foam</div>
+                                    <button class="customize-btn" onclick="openCustomize('Caffè Latte', 4.75, 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1618576230663-9714aecfb99a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2NoYSUyMGNvZmZlZXxlbnwxfHx8fDE3NjQ2NDA5NzB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Mocha" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Mocha</div>
+                                        <div class="item-price">$5.25</div>
+                                    </div>
+                                    <div class="item-description">Rich espresso with chocolate and steamed milk</div>
+                                    <button class="customize-btn" onclick="openCustomize('Mocha', 5.25, 'https://images.unsplash.com/photo-1599639957043-f3aa5c986398?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cold Coffee -->
+                    <div class="menu-category">
+                        <h2 class="category-title">🧊 Cold Coffee</h2>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1684439670717-b1147a7e7534?w=400" alt="Iced Coffee" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Iced Coffee</div>
+                                        <div class="item-price">$4.00</div>
+                                    </div>
+                                    <div class="item-description">Refreshing cold brew served over ice</div>
+                                    <button class="customize-btn" onclick="openCustomize('Iced Coffee', 4.00, 'https://images.unsplash.com/photo-1684439670717-b1147a7e7534?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400" alt="Cold Brew" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Cold Brew</div>
+                                        <div class="item-price">$4.50</div>
+                                    </div>
+                                    <div class="item-description">Smooth, slow-steeped cold coffee</div>
+                                    <button class="customize-btn" onclick="openCustomize('Cold Brew', 4.50, 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400" alt="Iced Latte" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Iced Latte</div>
+                                        <div class="item-price">$4.75</div>
+                                    </div>
+                                    <div class="item-description">Espresso with cold milk over ice</div>
+                                    <button class="customize-btn" onclick="openCustomize('Iced Latte', 4.75, 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1627998691167-4dab0dfcae9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmcmFwcHVjY2lubyUyMGRyaW5rJTIwZ2xhc3N8ZW58MXx8fHwxNzY0NzE1MjM3fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Frappuccino" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Frappuccino</div>
+                                        <div class="item-price">$5.50</div>
+                                    </div>
+                                    <div class="item-description">Blended coffee drink with ice and whipped cream</div>
+                                    <button class="customize-btn" onclick="openCustomize('Frappuccino', 5.50, 'https://images.unsplash.com/photo-1627998691167-4dab0dfcae9f?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Specialty -->
+                    <div class="menu-category">
+                        <h2 class="category-title">⭐ Specialty Drinks</h2>
+                        <div class="menu-items">
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1683122925249-8b15d807db4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2YW5pbGxhJTIwbGF0dGV8ZW58MXx8fHwxNzY0NzAxNTQ0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Vanilla Latte" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Vanilla Latte</div>
+                                        <div class="item-price">$5.00</div>
+                                    </div>
+                                    <div class="item-description">Classic latte with sweet vanilla flavor</div>
+                                    <button class="customize-btn" onclick="openCustomize('Vanilla Latte', 5.00, 'https://images.unsplash.com/photo-1683122925249-8b15d807db4b?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1604298458655-ae6e04213678?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXJhbWVsJTIwbWFjY2hpYXRvJTIwZHJpbmt8ZW58MXx8fHwxNzY0NzE1MjM2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Caramel Macchiato" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Caramel Macchiato</div>
+                                        <div class="item-price">$5.25</div>
+                                    </div>
+                                    <div class="item-description">Espresso with vanilla, steamed milk, and caramel drizzle</div>
+                                    <button class="customize-btn" onclick="openCustomize('Caramel Macchiato', 5.25, 'https://images.unsplash.com/photo-1604298458655-ae6e04213678?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+
+                            <div class="menu-item">
+                                <img src="https://images.unsplash.com/photo-1708572727896-117b5ea25a86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYXRjaGElMjBncmVlbiUyMHRlYSUyMGxhdHRlfGVufDF8fHx8MTc2NDcxMTY5M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral" alt="Matcha Latte" class="item-image">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">Matcha Latte</div>
+                                        <div class="item-price">$5.50</div>
+                                    </div>
+                                    <div class="item-description">Premium matcha green tea with steamed milk</div>
+                                    <button class="customize-btn" onclick="openCustomize('Matcha Latte', 5.50, 'https://images.unsplash.com/photo-1708572727896-117b5ea25a86?w=400')">Customize & Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart -->
+                <div class="cart-section" id="cartSection">
+                    <h2 class="cart-title">
+                        <span>🛒</span>
+                        <span>Your Order</span>
+                    </h2>
+                    <div id="cartContent">
+                        <div class="cart-empty">
+                            <p>Your cart is empty</p>
+                            <p style="font-size: 0.875rem; margin-top: 0.5rem;">Add items to get started!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customize Modal -->
+    <div class="modal" id="customizeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Customize Your Drink</h3>
+                <button class="close-btn" onclick="closeCustomize()">×</button>
+            </div>
+            <img id="modalImage" src="" alt="" class="modal-image">
+            
+            <div class="customize-section">
+                <label class="customize-label">Size</label>
+                <div class="option-group" id="sizeOptions">
+                    <button class="option-btn active" data-value="Small" data-price="0">Small (8oz)</button>
+                    <button class="option-btn" data-value="Medium" data-price="0.50">Medium (12oz) +$0.50</button>
+                    <button class="option-btn" data-value="Large" data-price="1.00">Large (16oz) +$1.00</button>
+                </div>
+            </div>
+
+            <div class="customize-section">
+                <label class="customize-label">Milk Type</label>
+                <div class="option-group" id="milkOptions">
+                    <button class="option-btn active" data-value="Whole Milk" data-price="0">Whole Milk</button>
+                    <button class="option-btn" data-value="2% Milk" data-price="0">2% Milk</button>
+                    <button class="option-btn" data-value="Oat Milk" data-price="0.75">Oat Milk +$0.75</button>
+                    <button class="option-btn" data-value="Almond Milk" data-price="0.75">Almond Milk +$0.75</button>
+                    <button class="option-btn" data-value="Soy Milk" data-price="0.75">Soy Milk +$0.75</button>
+                </div>
+            </div>
+
+            <div class="customize-section">
+                <label class="customize-label">Sweetness</label>
+                <div class="option-group" id="sweetnessOptions">
+                    <button class="option-btn" data-value="No Sugar" data-price="0">No Sugar</button>
+                    <button class="option-btn active" data-value="Regular" data-price="0">Regular</button>
+                    <button class="option-btn" data-value="Extra Sweet" data-price="0">Extra Sweet</button>
+                </div>
+            </div>
+
+            <div class="customize-section">
+                <label class="customize-label">Extras</label>
+                <div class="extras-grid" id="extrasOptions">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra1" data-value="Extra Shot" data-price="0.75">
+                        <label for="extra1">
+                            <span>Extra Shot</span>
+                            <span>+$0.75</span>
+                        </label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra2" data-value="Whipped Cream" data-price="0.50">
+                        <label for="extra2">
+                            <span>Whipped Cream</span>
+                            <span>+$0.50</span>
+                        </label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra3" data-value="Caramel Drizzle" data-price="0.50">
+                        <label for="extra3">
+                            <span>Caramel Drizzle</span>
+                            <span>+$0.50</span>
+                        </label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="extra4" data-value="Chocolate Drizzle" data-price="0.50">
+                        <label for="extra4">
+                            <span>Chocolate Drizzle</span>
+                            <span>+$0.50</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="add-to-cart-btn" onclick="addToCart()">
+                <span id="addToCartText">Add to Cart - $0.00</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Checkout</h3>
+                <button class="close-btn" onclick="closeCheckout()">×</button>
+            </div>
+
+            <div class="order-summary-box">
+                <h4>Order Summary</h4>
+                <div id="checkoutSummary"></div>
+            </div>
+
+            <form class="checkout-form" id="checkoutForm" onsubmit="placeOrder(event)">
+                <div class="form-group">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" class="form-input" id="customerName" required>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address *</label>
+                    <input type="email" class="form-input" id="customerEmail" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Phone Number *</label>
+                    <input type="tel" class="form-input" id="customerPhone" required>
+                    <span class="error-message" id="phoneError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pickup Time *</label>
+                    <input type="datetime-local" class="form-input" id="pickupTime" required>
+                    <span class="error-message" id="timeError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Special Instructions</label>
+                    <textarea class="form-input" id="specialInstructions" rows="3" placeholder="Any special requests?"></textarea>
+                </div>
+
+                <button type="submit" class="place-order-btn">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✓</div>
+            <div class="success-message">Order Placed Successfully!</div>
+            <div class="success-details">
+                <p>Your order number is <strong id="orderNumber"></strong></p>
+                <p style="margin-top: 0.5rem;">We'll have your drinks ready for pickup at your selected time.</p>
+                <p style="margin-top: 0.5rem;">A confirmation email has been sent to <span id="confirmEmail"></span></p>
+            </div>
+            <button class="add-to-cart-btn" onclick="closeSuccess()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                            <line x1="6" x2="6" y1="2" y2="4"/>
+                            <line x1="10" x2="10" y1="2" y2="4"/>
+                            <line x1="14" x2="14" y1="2" y2="4"/>
+                        </svg>
+                        <span>Secret Sip</span>
+                    </div>
+                    <p>Crafting exceptional coffee experiences since 2020. Your daily dose of happiness.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="experience.html">Experience</a></li>
+                        <li><a href="index.html#location">Location</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="tel:4155550123">(415) 555-0123</a></li>
+                        <li><a href="mailto:hello@secretsip.com">hello@secretsip.com</a></li>
+                        <li>123 Coffee Street<br>San Francisco, CA 94102</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Hours</h3>
+                    <ul>
+                        <li>Mon-Fri: 7:00 AM - 8:00 PM</li>
+                        <li>Sat-Sun: 8:00 AM - 9:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Secret Sip. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Cart data
+        let cart = [];
+        let currentItem = {
+            name: '',
+            basePrice: 0,
+            image: '',
+            size: 'Small',
+            sizePrice: 0,
+            milk: 'Whole Milk',
+            milkPrice: 0,
+            sweetness: 'Regular',
+            extras: []
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum pickup time to 15 minutes from now
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 15);
+            const minTime = now.toISOString().slice(0, 16);
+            document.getElementById('pickupTime').min = minTime;
+
+            // Setup option buttons
+            setupOptionButtons();
+            setupCheckboxes();
+        });
+
+        function setupOptionButtons() {
+            const optionGroups = ['sizeOptions', 'milkOptions', 'sweetnessOptions'];
+            
+            optionGroups.forEach(groupId => {
+                const group = document.getElementById(groupId);
+                const buttons = group.querySelectorAll('.option-btn');
+                
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        if (groupId === 'sizeOptions') {
+                            currentItem.size = this.dataset.value;
+                            currentItem.sizePrice = parseFloat(this.dataset.price);
+                        } else if (groupId === 'milkOptions') {
+                            currentItem.milk = this.dataset.value;
+                            currentItem.milkPrice = parseFloat(this.dataset.price);
+                        } else if (groupId === 'sweetnessOptions') {
+                            currentItem.sweetness = this.dataset.value;
+                        }
+                        
+                        updatePrice();
+                    });
+                });
+            });
+        }
+
+        function setupCheckboxes() {
+            const checkboxes = document.querySelectorAll('.checkbox-option input[type="checkbox"]');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const option = this.closest('.checkbox-option');
+                    
+                    if (this.checked) {
+                        option.classList.add('checked');
+                    } else {
+                        option.classList.remove('checked');
+                    }
+                    
+                    updateExtras();
+                    updatePrice();
+                });
+            });
+        }
+
+        function updateExtras() {
+            currentItem.extras = [];
+            const checkboxes = document.querySelectorAll('.checkbox-option input[type="checkbox"]:checked');
+            
+            checkboxes.forEach(checkbox => {
+                currentItem.extras.push({
+                    name: checkbox.dataset.value,
+                    price: parseFloat(checkbox.dataset.price)
+                });
+            });
+        }
+
+        function updatePrice() {
+            let total = currentItem.basePrice + currentItem.sizePrice + currentItem.milkPrice;
+            currentItem.extras.forEach(extra => total += extra.price);
+            
+            document.getElementById('addToCartText').textContent = 
+                `Add to Cart - $${total.toFixed(2)}`;
+        }
+
+        function openCustomize(name, price, image) {
+            currentItem = {
+                name: name,
+                basePrice: price,
+                image: image,
+                size: 'Small',
+                sizePrice: 0,
+                milk: 'Whole Milk',
+                milkPrice: 0,
+                sweetness: 'Regular',
+                extras: []
+            };
+            
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalImage').src = image;
+            
+            // Reset all options
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('#sizeOptions .option-btn')[0].classList.add('active');
+            document.querySelectorAll('#milkOptions .option-btn')[0].classList.add('active');
+            document.querySelectorAll('#sweetnessOptions .option-btn')[1].classList.add('active');
+            
+            // Reset checkboxes
+            document.querySelectorAll('.checkbox-option input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+                cb.closest('.checkbox-option').classList.remove('checked');
+            });
+            
+            updatePrice();
+            document.getElementById('customizeModal').classList.add('active');
+        }
+
+        function closeCustomize() {
+            document.getElementById('customizeModal').classList.remove('active');
+        }
+
+        function addToCart() {
+            const cartItem = {
+                id: Date.now(),
+                ...currentItem,
+                quantity: 1
+            };
+            
+            cart.push(cartItem);
+            updateCart();
+            closeCustomize();
+            
+            // Scroll to cart on mobile
+            if (window.innerWidth < 1024) {
+                scrollToCart();
+            }
+        }
+
+        function updateCart() {
+            const cartContent = document.getElementById('cartContent');
+            const cartCount = document.getElementById('cartCount');
+            
+            cartCount.textContent = cart.length;
+            
+            if (cart.length === 0) {
+                cartContent.innerHTML = `
+                    <div class="cart-empty">
+                        <p>Your cart is empty</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Add items to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let subtotal = 0;
+            let itemsHtml = '<div class="cart-items">';
+            
+            cart.forEach(item => {
+                const itemTotal = (item.basePrice + item.sizePrice + item.milkPrice + 
+                    item.extras.reduce((sum, extra) => sum + extra.price, 0)) * item.quantity;
+                subtotal += itemTotal;
+                
+                const details = [];
+                details.push(item.size);
+                if (item.milk !== 'Whole Milk') details.push(item.milk);
+                if (item.sweetness !== 'Regular') details.push(item.sweetness);
+                item.extras.forEach(extra => details.push(extra.name));
+                
+                itemsHtml += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-details">${details.join(', ')}</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div class="cart-item-quantity">
+                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                    <span class="qty-value">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                                </div>
+                                <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeItem(${item.id})">×</button>
+                    </div>
+                `;
+            });
+            
+            itemsHtml += '</div>';
+            
+            const tax = subtotal * 0.0875; // 8.75% tax
+            const total = subtotal + tax;
+            
+            const summaryHtml = `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (8.75%)</span>
+                        <span>$${tax.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                </div>
+                <button class="checkout-btn" onclick="openCheckout()">
+                    Proceed to Checkout
+                </button>
+            `;
+            
+            cartContent.innerHTML = itemsHtml + summaryHtml;
+        }
+
+        function updateQuantity(itemId, change) {
+            const item = cart.find(i => i.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeItem(itemId);
+                } else {
+                    updateCart();
+                }
+            }
+        }
+
+        function removeItem(itemId) {
+            cart = cart.filter(i => i.id !== itemId);
+            updateCart();
+        }
+
+        function scrollToCart() {
+            document.getElementById('cartSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) return;
+            
+            let summaryHtml = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = (item.basePrice + item.sizePrice + item.milkPrice + 
+                    item.extras.reduce((sum, extra) => sum + extra.price, 0)) * item.quantity;
+                subtotal += itemTotal;
+                
+                summaryHtml += `
+                    <div class="order-summary-item">
+                        <span>${item.quantity}x ${item.name} (${item.size})</span>
+                        <span>$${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            const tax = subtotal * 0.0875;
+            const total = subtotal + tax;
+            
+            summaryHtml += `
+                <div class="order-summary-item">
+                    <span>Subtotal</span>
+                    <span>$${subtotal.toFixed(2)}</span>
+                </div>
+                <div class="order-summary-item">
+                    <span>Tax</span>
+                    <span>$${tax.toFixed(2)}</span>
+                </div>
+                <div class="order-summary-item order-summary-total">
+                    <span>Total</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+            `;
+            
+            document.getElementById('checkoutSummary').innerHTML = summaryHtml;
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function placeOrder(event) {
+            event.preventDefault();
+            
+            // Basic validation
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+            const pickupTime = document.getElementById('pickupTime').value;
+            
+            if (!name || !email || !phone || !pickupTime) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Generate order number
+            const orderNumber = 'SS' + Math.floor(Math.random() * 100000);
+            
+            // Show success modal
+            document.getElementById('orderNumber').textContent = orderNumber;
+            document.getElementById('confirmEmail').textContent = email;
+            
+            closeCheckout();
+            document.getElementById('successModal').classList.add('active');
+            
+            // Clear cart
+            cart = [];
+            updateCart();
+            
+            // Reset form
+            document.getElementById('checkoutForm').reset();
+        }
+
+        function closeSuccess() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
